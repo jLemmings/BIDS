@@ -7,38 +7,49 @@ View(soil)
 str <- str(soil)
 sum <- summary(soil)
 
-# Task 3
+# Task 3 Was ist mit "against" gemeint? Was ist mit disskutieren gemeint?
 print(sum)
-sum$r.squared
+#sum$r.squared
 plot(soil['Clay1'])
 cor(soil$Clay1, soil$OC1)
 
-fit=lm(data=soil)
-summary(fit)
-plot(fit)
+#fit=lm(data=soil)
+#summary(fit)
+#plot(fit)
 
-plot(soil$Clay1, type="l", col="blue", xlab="Count", ylab="Clay")
+plot(soil$CEC1, type="l", col="blue", xlab="Count", ylab="Clay", ylim = c(0,80))
+lines(soil$Clay1, type="l", col="red")
+lines(soil$OC1, type="l", col="green")
+legend(30, 80, legend=c("CEC1", "Clay1", "OC1"), col=c("blue", "red", "green"), lty=1:1, cex=0.8)
+
+plot(soil$CEC2, type="l", col="blue", xlab="Count", ylab="Clay", ylim = c(0,80))
 lines(soil$Clay2, type="l", col="red")
-lines(soil$Clay5, type="l", col="green")
-legend(1, 70, legend=c("Clay1", "Clay2", "Clay3"), col=c("blue", "red", "green"), lty=1:1, cex=0.8)
+lines(soil$OC2, type="l", col="green")
+legend(35, 80, legend=c("CEC2", "Clay2", "OC2"), col=c("blue", "red", "green"), lty=1:1, cex=0.8)
 
-plot(soil$CEC1, type="l", col="blue", xlab="Count", ylab="CEC")
-lines(soil$CEC2, type="l", col="red")
-lines(soil$CEC5, type="l", col="green")
-legend(1, 29, legend=c("CEC1", "CEC2", "CEC3"), col=c("blue", "red", "green"), lty=1:1, cex=0.8)
-
-
-plot(soil$OC1, type="l", col="blue", xlab="Count", ylab="OC")
-lines(soil$OC2, type="l", col="red")
+plot(soil$CEC5, type="l", col="blue", xlab="Count", ylab="Clay", ylim = c(0,110))
+lines(soil$Clay5, type="l", col="red")
 lines(soil$OC5, type="l", col="green")
-legend(1, 10, legend=c("OC1", "OC2", "OC3"), col=c("blue", "red", "green"), lty=1:1, cex=0.8)
+legend(20, 100, legend=c("CEC5", "Clay5", "OC5"), col=c("blue", "red", "green"), lty=1:1, cex=0.8)
 
+# Task 4 Was ist mit linearer Regression gemeint (hier nur eine unabhängige Variable?)
+# Test
+plot(OC1 ~ Clay1, data=soil)
+cor(soil$OC1,soil$Clay1)
+(fit = lm(OC1 ~ Clay1, data = soil))
+plot(OC1 ~ Clay1, data=soil) + abline(fit)
+lines(soil$CEC1, type="l", col="red")
+# End Test
 
-# Task 4
 plot(CEC1 ~ Clay1, data=soil)
 cor(soil$CEC1,soil$Clay1)
 (fit = lm(CEC1 ~ Clay1, data = soil))
 plot(CEC1 ~ Clay1, data=soil) + abline(fit)
+
+plot(CEC1 ~ OC1, data=soil)
+cor(soil$CEC1,soil$OC1)
+(fit = lm(CEC1 ~ OC1, data = soil))
+plot(CEC1 ~ OC1, data=soil) + abline(fit)
 
 plot(CEC2 ~ Clay2, data=soil)
 cor(soil$CEC2,soil$Clay2)
@@ -49,11 +60,6 @@ plot(CEC5 ~ Clay5, data=soil)
 cor(soil$CEC5,soil$Clay5)
 (fit = lm(CEC5 ~ Clay5, data = soil))
 plot(CEC5 ~ Clay5, data=soil) + abline(fit)
-
-plot(CEC1 ~ OC1, data=soil)
-cor(soil$CEC1,soil$OC1)
-(fit = lm(CEC1 ~ OC1, data = soil))
-plot(CEC1 ~ OC1, data=soil) + abline(fit)
 
 plot(CEC2 ~ OC2, data=soil)
 cor(soil$CEC2,soil$OC2)
@@ -86,11 +92,11 @@ summary(fit6)$r.squared
 
 # Task 6
 regression = lm(CEC1 ~ Clay1+OC1, data = soil)
-#Die lineare Gleichung lautet: y=0.06475*Clay1+2.16240*OC11+2.71960
+#Die lineare Gleichung lautet: y=0.06475*Clay1+2.16240*OC1+2.71960
 regression$coefficients
 summary(regression)
 
-#Predictions
+#Predictions Was sind die beiden Prädiktoren? Ebene 2 und Ebene 5?
 pred1 = forecast(regression, newdata=data.frame(Clay1 = soil$Clay2, OC1 = soil$OC2))
 print(pred1)
 pred2 <- forecast(regression, newdata=data.frame(Clay1 = soil$Clay5, OC1 = soil$OC5))
@@ -108,6 +114,9 @@ regression = lm(pred2 ~ Clay1+OC1, data = soil)
 summary(regression)$r.squared
 
 # Task 7
+res = resid(regression)
+plot(res, ylab="Residuals", xlab="CEC", main="Residuals") +abline(0,0)
 
 # Task 8
-
+pred1 = forecast(regression, newdata=data.frame(Clay1 = 0, OC1 = soil$OC2))
+print(pred1)
