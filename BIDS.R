@@ -1,6 +1,5 @@
 library(readr)
 soil <- read_csv("soil.csv")
-plot_colors <- c(rgb(r=0.0,g=0.0,b=0.9))
 # Task 1
 View(soil)
 
@@ -21,14 +20,19 @@ plot(fit)
 plot(soil$Clay1, type="l", col="blue", xlab="Count", ylab="Clay")
 lines(soil$Clay2, type="l", col="red")
 lines(soil$Clay5, type="l", col="green")
+legend(1, 70, legend=c("Clay1", "Clay2", "Clay3"), col=c("blue", "red", "green"), lty=1:1, cex=0.8)
 
 plot(soil$CEC1, type="l", col="blue", xlab="Count", ylab="CEC")
 lines(soil$CEC2, type="l", col="red")
 lines(soil$CEC5, type="l", col="green")
+legend(1, 29, legend=c("CEC1", "CEC2", "CEC3"), col=c("blue", "red", "green"), lty=1:1, cex=0.8)
+
 
 plot(soil$OC1, type="l", col="blue", xlab="Count", ylab="OC")
 lines(soil$OC2, type="l", col="red")
 lines(soil$OC5, type="l", col="green")
+legend(1, 10, legend=c("OC1", "OC2", "OC3"), col=c("blue", "red", "green"), lty=1:1, cex=0.8)
+
 
 # Task 4
 plot(CEC1 ~ Clay1, data=soil)
