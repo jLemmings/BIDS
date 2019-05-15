@@ -118,5 +118,8 @@ res = resid(regression)
 plot(res, ylab="Residuals", xlab="CEC", main="Residuals") +abline(0,0)
 
 # Task 8
-pred1 = forecast(regression, newdata=data.frame(Clay1 = 0, OC1 = soil$OC2))
-print(pred1)
+pred3 = forecast(regression, newdata=data.frame(Clay1 = (soil$Clay2)*0, OC1 = soil$OC2))
+print(pred3)
+
+pred4 = forecast(regression, newdata=data.frame(Clay1 = (soil$Clay2)*0.7, OC1 = soil$OC2))
+print(pred4)
